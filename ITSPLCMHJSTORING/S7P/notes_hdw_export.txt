@@ -1,0 +1,74 @@
+<english text below>
+
+Öffnen des Projektes in STEP7 V5.x von SIEMENS:
+
+Wenn eine Symbolikdatei vorhanden ist, muss diese nach dem 
+Öffnen importiert werden.
+Die Symbolik ist in Form einer .ASC Datei gespeichert 
+(im gleichen Verzeichnis wie die .S7P-Datei).
+Vorhandene (leere) Symboliktabelle öffnen und dann Menü "Tabelle->Importieren..." 
+auswählen und die .ASC Datei importieren.
+Jetzt stehen die Symbole in den Bausteinen zur Verfügung.
+
+
+Hardwarekonfiguration importieren	
+=================================
+
+Die Hardwarekonfiguration wird in Form von WLD-Dateien (Memory Card Dateien)
+gespeichert.
+In jeder WLD Datei befinden sich ausschließlich die SDBs für die Hardwarekonfiguration.
+Im Verzeichnis befinden sich für jede Station eine WLD-Datei:
+
+Hardwareconfig_Station_xy1.WLD //SDBs von Station xy1
+Hardwareconfig_Station_xy2.WLD //SDBs von Station xy2 
+Hardwareconfig_Station_....WLD //SDBs von Station ..
+Hardwareconfig_ws7_Offline.WLD //SDBs des Offline Projektes
+
+Die WLD Datei kann in STEP7 geöffnet werden:
+Datei->Memory Card-Datei->Öffnen
+
+Nach dem Öffnen können Sie per Drag und Drop die SBDs in den 
+Bausteinordner Offline ziehen.
+Von dort aus können Sie die Hardwarekonf. in die S7-CPU übertragen.
+
+Da keine Station erstellt ist, können Sie die Hardwarekonf. erst bearbeiten,
+nachdem diese von der SPS in das Projekt geladen wurde.
+
+--------------------------------------------------------------------------------
+English:
+
+Open this project with STEP7 V5.x:
+
+If a symbolic file is available, you must import the symbols via a .ASC file.
+The symbols are stored in a .ASC file (same folder as .S7P file)
+
+Open the empty symbolic table and then select menu item 
+Symbol Table->Import...
+After this the symbolic names are available.
+
+
+Import the hardware configuration
+=================================
+
+The hardwareconfiguration is stored in WLD files.
+In every WLD file you find the hardwareconfiguration of a station.
+
+Files (Example):
+Hardwareconfig_Station_xy1.WLD //SDBs of Station xy1
+Hardwareconfig_Station_xy2.WLD //SDBs of Station xy2 
+Hardwareconfig_Station_....WLD //SDBs of Station ..
+Hardwareconfig_ws7_Offline.WLD //SDBs of the Offline project
+
+You can open the WLD files with STEP7 via menu item
+File->Memory Card-File->Open
+
+After this you can drag and drop the SDBs into your block offline folder.
+From this folder you can load the SDBs into the PLC.
+
+Because there is no station in the project you can only edit the hardware
+configuration after you create a new station and load the hardwareconfiguration
+from the PLC into the project.
+
+
+
+

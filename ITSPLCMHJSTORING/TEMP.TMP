@@ -1,0 +1,256 @@
+//{{V2}}
+ORGANIZATION_BLOCK OB1
+TITLE= "Cyclic main program"
+
+
+AUTHOR:nb
+FAMILY:nb
+NAME:nb
+VERSION:1.0
+
+
+VAR_TEMP
+       OB1_EV_CLASS:BYTE //Bits 0-3 = 1 (Coming event), Bits 4-7 = 1 (Event class 1)
+       OB1_SCAN_1:BYTE //1 (Cold restart scan 1 of OB 1), 3 (Scan 2-n of OB 1)
+       OB1_PRIORITY:BYTE //1 (Priority of 1 is lowest)
+       OB1_OB_NUMBR:BYTE //1 (Organization block 1, OB1)
+       OB1_RESERVED_1:BYTE //Reserved for system
+       OB1_RESERVED_2:BYTE //Reserved for system
+       OB1_PREV_CYCLE:INT //Cycle time of previous OB1 scan (milliseconds)
+       OB1_MIN_CYCLE:INT //Minimum cycle time of OB1 (milliseconds)
+       OB1_MAX_CYCLE:INT //Maximum cycle time of OB1 (milliseconds)
+       OB1_DATE_TIME:DATE_AND_TIME //Date and time OB1 started
+END_VAR
+BEGIN
+
+NETWORK
+TITLE=demarage et arret
+//{{k}}
+//Control Panel
+
+       A    I         1.3
+       A    I         1.4  
+       S    M       100.0  
+       NOP  0
+       A    M       100.0  
+       =    M       100.0
+NETWORK
+TITLE=Q0
+//{{a}}
+//convyeur A
+
+       A    M       100.0
+       A    M        99.0  
+       A(   
+       A    I         0.0  
+       AN   I         0.1  
+       ON   I         0.0  
+       )    
+       S    M        10.0  
+       A(   
+//{{OR}}  
+       ON   M       100.0  
+       O    
+       A    M         0.0  
+       AN   M        99.0  
+       )    
+       R    M        10.0  
+       A    M        10.0  
+       =    Q         0.0  
+NETWORK
+TITLE=Q1
+//{{a}}
+//convyeur B
+
+       A(
+       A    I         0.0  
+       //{{OR}}  
+       )    
+       A(   
+       O    I         0.1  
+       O    I         0.2  
+       )    
+       O    
+       A    I         0.3  
+       A    I         0.4  
+       AN   I         0.6  
+       S    M        10.1  
+       A(   
+       AN   I         0.4  
+       A    I         0.3  
+       O    
+       A    I         0.3  
+       A    I         0.4  
+       A    I         0.6  
+       ON   M       100.0  
+       )    
+       R    M        10.1  
+       A    M        10.1  
+       =    Q         0.1  
+NETWORK
+TITLE=Q2
+//{{a}}
+
+       A    I         0.4
+       AN   I         0.6  
+       A    I         0.3  
+       O    
+       A    I         0.5  
+       A    M       201.3  
+       A    I         0.6  
+       S    M        10.2  
+       A(   
+       A    I         0.6  
+       A    I         0.4  
+       O    M        11.0  
+       ON   M       100.0  
+       )    
+       R    M        10.2  
+       A    M        10.2  
+       =    Q         0.2  
+NETWORK
+TITLE=Q3
+//{{a}}
+
+       AN   M       201.3
+       A    I0.5  
+       A    I         0.6  
+       S    M        10.3  
+       A(   
+       ON   M       100.0  
+       O    M        10.7  
+       )    
+       R    M        10.3  
+       A    M        10.3  
+       =    Q         0.3  
+NETWORK
+TITLE=Q4
+//{{a}}
+
+       A    I         0.6
+       A    I         0.4  
+       S    M        10.4  
+       A    M        10.7  
+       O    
+       A(   
+       O    M        11.0  
+       ON   M       100.0  
+       )    
+       R    M        10.4  
+       A    M        10.4  
+       =    Q         0.4  
+NETWORK
+TITLE=Q5
+//{{a}}
+
+       A    I         1.0
+       S    M        10.5  
+       A(   
+       A    I         1.2  
+       FN   M         1.2  
+       ON   M       100.0  
+       )    
+       R    M        10.5  
+       A    M        10.5  
+       =    Q         0.5  
+NETWORK
+TITLE=Q6
+//{{a}}
+
+       A    I         0.7
+       S    M        10.6  
+       A(   
+       A    I         1.1  
+       FN   M         1.1  
+       ON   M       100.0  
+       )    
+       R    M        10.6  
+       A    M        10.6  
+       =    Q         0.6  
+NETWORK
+TITLE=front montant I1.0
+//{{a}}
+
+       A    I         1.0
+       FN   M         1.0  
+       =    M        11.0  
+ 
+NETWORK
+TITLE=front montant I0.7
+//{{a}}
+
+       A    I         0.7
+       FN   M         0.7  
+       =    M        10.7  
+ 
+NETWORK
+TITLE=front montant I0.3
+//{{a}}
+
+       A    I         0.3
+       FN   M         0.3  
+       =    M       100.3  
+ 
+NETWORK
+TITLE=counter
+//{{a}}
+
+       A    M         0.1
+       CU   C0  
+       A    M       100.3  
+       CD   C0  
+       NOP  0  
+       NOP  0  
+       AN   M       100.0  
+       R    C0  
+       NOP  0  
+       LC   C0  
+       T    QW        10  
+       NOP  0  
+NETWORK
+TITLE=compartor
+//{{a}}
+
+       A(
+       L    QW        10  
+       L    2  
+       <I   
+       )    
+       =    M        99.0  
+NETWORK
+TITLE=Shift register
+//{{a}}
+
+       A    I         0.1
+       FN   M        44.0  
+       JNB  _001  
+       L    W#16#1  
+       L    MW        200  
+       SLW  
+       T    MW        200  
+_001:  NOP  0  
+NETWORK
+TITLE= 
+//{{a}}
+
+       A    I         0.2
+       =    M       201.0  
+  
+  
+NETWORK
+TITLE=
+//{{a}}
+
+       A    I         0.0
+       FP   M        33.3  
+       =    M         0.0  
+ 
+NETWORK
+TITLE=
+//{{k}}
+
+       A    I         0.1
+       FP   M        55.0
+       =    M         0.1
+ 
+END_ORGANIZATION_BLOCK
